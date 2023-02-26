@@ -8,5 +8,5 @@ class Device(models.Model):
     name = models.CharField(max_length=30)    
     register_date = models.DateField(default=date.today)
     quantity = models.IntegerField()
-    description = models.TextField()
+    description = models.TextField(blank=True)
     
