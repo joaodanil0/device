@@ -16,5 +16,6 @@ Including another URLconf
 from django.urls import path, include
 
 urlpatterns = [
-    path("device/", include('device.urls'))
+    path("device/", include('device.urls')),
+    path("", include('system.urls')),
 ]
