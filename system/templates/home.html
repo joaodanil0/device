@@ -25,11 +25,11 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div  class="modal-body">
               <form action="{% url 'device_register'%}" method="POST"> {% csrf_token%}
-                <p>
-                    {{form.as_p}}
-                </p>
+                <table>
+                    {{form.as_table}}
+                </table>
                 <input type="submit" class="btn btn-success" value="Register">
             </form>
             </div>
