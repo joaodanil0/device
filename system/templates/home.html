@@ -9,6 +9,7 @@
     <title>Home</title>
 </head>
 <body>
+    
     <nav class="navbar navbar-dark bg-dark">
         <a class=navbar-brand href="{% url 'system_home' %}">Device Manager</a>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
@@ -18,54 +19,68 @@
 
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLongTitle">Device Details</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div  class="modal-body">
-              <form action="{% url 'device_register'%}" method="POST" enctype="multipart/form-data"> {% csrf_token%}
-                <table>
-                    {{form.as_table}}
-                </table>
-                <input type="submit" class="btn btn-success" value="Register">
-            </form>
-            </div>
-          </div>
-        </div>
-    </div>
-
-    {% for book in books %}
-    <div class="row">
-        <div class="col-md">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    {% if book.img %}
-                        <img width="100%" src="{{book.img.url}}" alt="">
-                    {% endif %}
-                    <h5 class="card-title">{{book.name}}</h5>
-                    Borrowed: 
-                    {% if book.borrowed %}                        
-                        <svg style="color:green; display:inline" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                            <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-                        </svg>
-                    {% else %}
-                        <svg style="color:red; display:inline" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                        <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
-                      </svg>
-                    {% endif %}
-                    <br>
-                    <br>
-                    <a href="{% url 'book_info' book.id %}" target="_blank" class="btn btn-info">More</a>
-
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Device Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div  class="modal-body">
+                <form action="{% url 'device_register'%}" method="POST" enctype="multipart/form-data"> {% csrf_token%}
+                    <table>
+                        {{form.as_table}}
+                    </table>
+                    <input type="submit" class="btn btn-success" value="Register">
+                </form>
                 </div>
             </div>
-            
-        </div>   
-    {% endfor %}
+        </div>
     </div>
+    
+    <div class="container">
+        {% if status == '0' %}
+            <br>
+            <div class="alert alert-success" role="alert">
+                Device Registered Successfully
+            </div>
+        {% elif status == '1' %}
+            <br>
+            <div class="alert alert-warning" role="alert">
+                Some error occurred to register device
+            </div>
+        {% elif status == '2' %}
+            <br>
+            <div class="alert alert-warning" role="alert">
+                Device already exist!
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md text-center"><h1>Registered Devices</h1></div>
+        <div class="col-md-3"></div>
+    </div>
+    
+    <div class="row">   
+        {% for device in devices %}         
+        <div class="col-md-1" style="margin: 20px">
+            <div class="card" style="width: 10rem">
+                <div class="card-body">
+                    <img width="100%" src="{{device.image.url}}" alt="">
+                    <h5 class="card-title">{{device.model}}</h5>
+                    <br>
+                    <br>
+                    <a href="#" target="_blank" class="btn btn-info">More</a>
+                </div>
+            </div>
+        </div>   
+        {% endfor %}
+    </div>
+
+    <hr>
+
 
     <script src="{% static 'javascript/jquery-3.5.1.slim.min.js' %}"></script>
     <script src="{% static 'javascript/bootstrap.bundle.min.js' %}"></script>
